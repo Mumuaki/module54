@@ -32,27 +32,18 @@ NEWS_SAMPLES = [
 
 
 async def send_news(session, news):
-    """Отправка одной новости на сервер."""
     async with session.post('http://localhost:8081/news', json=news) as response:
         result = await response.json()
-        print(f"Sent: {news['title']}")
-        print(f"Response: {result}\n")
 
 
 async def main():
-    """Отправка тестовых новостей."""
     async with aiohttp.ClientSession() as session:
-        print("Sending test news...\n")
-        
         for news in NEWS_SAMPLES:
             await send_news(session, news)
-            await asyncio.sleep(2)  # Пауза между новостями
-        
-        print("All news sent!")
+            await asyncio.sleep(2)
 
 
 async def send_single_news():
-    """Отправка одной случайной новости."""
     async with aiohttp.ClientSession() as session:
         news = random.choice(NEWS_SAMPLES)
         await send_news(session, news)
